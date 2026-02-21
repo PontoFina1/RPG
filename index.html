@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wiki interativa de personagens com filtros, modo livro, fóruns e painel administrativo." />
+  <title>Wiki dos Heróis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;700&family=EB+Garamond:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Crônicas dos Personagens</h1>
+      <p class="writing-pattern">Padrão de escrita: contexto curto, curiosidade marcante e poderes em tópicos objetivos.</p>
+    </div>
+
+    <div class="topbar-controls">
+      <div class="filters" aria-label="Filtros de personagens">
+        <label for="classFilter" class="sr-only">Filtrar por classe</label>
+        <select id="classFilter">
+          <option value="all">Todas as classes</option>
+          <option value="Guerreiro">Guerreiro</option>
+          <option value="Mago">Mago</option>
+          <option value="Arqueiro">Arqueiro</option>
+          <option value="Ladino">Ladino</option>
+        </select>
+
+        <label for="factionFilter" class="sr-only">Filtrar por facção</label>
+        <select id="factionFilter">
+          <option value="all">Todas as facções</option>
+          <option value="Aliança Solar">Aliança Solar</option>
+          <option value="Ordem Arcana">Ordem Arcana</option>
+          <option value="Clã da Névoa">Clã da Névoa</option>
+        </select>
+      </div>
+
+      <div class="role-switcher">
+        <label for="roleSelect">Perfil:</label>
+        <select id="roleSelect">
+          <option value="user">Usuário</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="catalogView" class="catalog-view" aria-live="polite">
+      <div id="characterGrid" class="character-grid"></div>
+      <p id="emptyState" class="empty-state hidden">Nenhum personagem encontrado para os filtros selecionados.</p>
+    </section>
+
+    <section id="bookView" class="book-view hidden" aria-live="polite">
+      <div class="book-actions">
+        <button id="backButton" class="back-button" type="button">← Voltar para a galeria</button>
+        <button id="saveAdminChanges" class="save-button hidden" type="button">Salvar alterações (Admin)</button>
+      </div>
+
+      <article class="book-layout">
+        <div class="book-page left-page">
+          <img id="bookImage" src="" alt="" loading="lazy" />
+          <label for="imageInput" class="admin-label hidden" id="imageLabel">URL da imagem</label>
+          <input id="imageInput" class="admin-input hidden" type="url" placeholder="https://..." />
+
+          <h2 id="bookName"></h2>
+          <ul class="meta-list">
+            <li><strong>Classe:</strong> <span id="bookClass"></span></li>
+            <li><strong>Facção:</strong> <span id="bookFaction"></span></li>
+            <li><strong>Nível:</strong> <span id="bookLevel"></span></li>
+          </ul>
+
+          <div class="chart-wrapper">
+            <h3>Radar de Atributos</h3>
+            <canvas id="statsChart" width="320" height="220" aria-label="Gráfico de atributos do personagem"></canvas>
+          </div>
+        </div>
+
+        <div class="book-page right-page">
+          <nav class="book-tabs">
+            <button class="tab-button active" data-tab="curiosidades" type="button">Curiosidades</button>
+            <button class="tab-button" data-tab="poderes" type="button">Poderes</button>
+            <button class="tab-button" data-tab="personalidade" type="button">Personalidade</button>
+            <button class="tab-button" data-tab="forum" type="button">Fórum</button>
+          </nav>
+
+          <div class="tab-content" id="tab-curiosidades">
+            <h3>Curiosidades</h3>
+            <p id="bookCuriosities"></p>
+          </div>
+
+          <div class="tab-content hidden" id="tab-poderes">
+            <h3>Poderes</h3>
+            <ul id="bookSkills" class="skills-list"></ul>
+            <div class="bar-chart" id="powerBars" aria-label="Gráfico de barras de poder"></div>
+          </div>
+
+          <div class="tab-content hidden" id="tab-personalidade">
+            <h3>Personalidade</h3>
+            <p id="bookPersonality"></p>
+            <label for="personalityInput" class="admin-label hidden" id="personalityLabel">Editar personalidade</label>
+            <textarea id="personalityInput" class="admin-input hidden" rows="4"></textarea>
+          </div>
+
+          <div class="tab-content hidden" id="tab-forum">
+            <h3>Fórum da Comunidade</h3>
+            <form id="forumForm" class="forum-form">
+              <input id="forumTitle" type="text" maxlength="60" placeholder="Título do tópico" required />
+              <textarea id="forumContent" rows="3" maxlength="250" placeholder="Compartilhe sua teoria..." required></textarea>
+              <button type="submit">Publicar tópico</button>
+            </form>
+            <ul id="forumList" class="forum-list"></ul>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
